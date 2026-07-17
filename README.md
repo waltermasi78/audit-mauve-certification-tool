@@ -57,6 +57,27 @@ Il tool intercetta il nodo JSON-LD grezzo ed esegue in tempo reale un processo d
 
 ---
 
+## 📐 Formula di Computazione e Modello di Ponderazione dei Pesi CNR (Rettificato)
+Per garantire la perfetta conformità scientifica con i modelli di calcolo nativi di MAUVE++ ed evitare metriche lineari incomplete, il tool implementa la media ponderata (pesata) ufficiale stabilita dal CNR.
+
+Ciascuna asserzione viene associata a un coefficiente di peso basato sul livello di appartenenza del controllo, in modo che la severità dell'impatto sia inversamente proporzionale alla flessibilità del livello analizzato:
+
+Level A (Severità Massima - Blocca l'accessibilità di base): Peso = 3
+
+Level AA (Standard Richiesto per la Pubblica Amministrazione): Peso = 2
+
+Level AAA (Ottimizzazione Avanzata e di Dettaglio): Peso = 1
+
+Calcolo dell'Accessibility Score Ponderato
+L'indice percentuale di accessibilità (calcolato separatamente per le singole Tecniche e per i Criteri di Successo complessivi) divide la sommatoria dei successi moltiplicati per il rispettivo peso per la sommatoria dei test totali eseguiti moltiplicati per il medesimo peso. Vengono sistematicamente esclusi dal paniere i test non applicabili (Not Applicable):
+
+Accessibility Score % = [ Somma(Peso_Livello x Successi) / Somma(Peso_Livello x Test_Totali) ] x 100
+
+Calcolo dell'Evaluation Completeness
+L'indice misura l'estensione e lo stato di avanzamento dell'audit automatico calcolando la percentuale di regole che hanno già ottenuto un esito definitivo certo (Passed o Failed) rispetto alla totalità dei test riscontrati incluse le situazioni di ambiguità semantica rappresentate dai Warning (cannotTell):
+
+Completeness % = [ (Passed + Failed) / (Passed + Failed + Warning) ] x 100
+
 ## 🎯 Perché lo fa: Confutazione dei Falsi Positivi ed Esonero di Responsabilità
 
 > ### ⚠️ Dichiarazione Peritale d'Infrastruttura
@@ -67,9 +88,9 @@ Il tool intercetta il nodo JSON-LD grezzo ed esegue in tempo reale un processo d
 
 L'algoritmo del tool analizza e risolve questa criticità strutturale attraverso una logica di isolamento matematico:
 
-* **Isolamento dell'Asimmetria:** Se un errore sistematico legato ad elementi comuni (come l'Header o il Footer) viene rilevato da MAUVE++ *esclusivamente su una singola pagina* e convalidato come pienamente conforme sulle restanti risorse esaminate (nonostante il codice del template sia identico), il sistema identifica l'incoerenza analitica dello strumento del CNR.
+* **Isolamento dell'Asimmetria:** Se un errore sistematico legato ad elementi comuni (come l'Header o il Footer) viene rilevato da MAUVE++ esclusivamente su una singola pagina e convalidato come pienamente conforme sulle restanti risorse esaminate (nonostante il codice del template sia identico), il sistema identifica l'incoerenza analitica dello strumento del CNR.
 * **Generazione del Focus Ispettivo (Capitolo 1.1):** Il tool ordina la lista delle pagine in modo rigidamente decrescente per numero di errori. Isola l'URL anomalo e inserisce automaticamente nella relazione PDF una nota tecnica formale che attribuisce il picco ad un'incoerenza temporanea del parser automatico e non a un difetto dell'Ente, suggerendo l'apertura di un ticket di manutenzione presso i laboratori del CNR.
-* **Normalizzazione Cromatica AgID:** Il tool ricollega i macro-indicatori di accessibilità e completezza alle fasce di voto reali dell'Ente. La palette cromatica del PDF e della dashboard si adatta dinamicamente passando al **Verde** ($\ge$ 90%), al **Giallo/Arancio** ($\ge$ 75%) o al **Rosso** (< 75%), escludendo colorazioni fisse che potrebbero trarre in inganno l'RTD.
+* **Normalizzazione Cromatica AgID:** Il tool ricollega i macro-indicatori di accessibilità e completezza alle fasce di voto reali dell'Ente. La palette cromatica del PDF e della dashboard si adatta dinamicamente passando al Verde (maggiore o uguale al 90%), al Giallo/Arancio (maggiore o uguale al 75%) o al Rosso (minore del 75%), escludendo colorazioni fisse che potrebbero trarre in inganno l'RTD.
 
 ---
 
